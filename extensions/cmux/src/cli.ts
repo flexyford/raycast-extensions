@@ -1,8 +1,13 @@
 import { execFile } from "child_process";
 
+const expandedEnv = {
+  PATH: "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+  ...process.env,
+};
+
 export function execFileAsync(command: string, args: string[]): Promise<string> {
   return new Promise((resolve, reject) => {
-    execFile(command, args, { encoding: "utf8" }, (error, stdout) => {
+    execFile(command, args, { encoding: "utf8", env: expandedEnv }, (error, stdout) => {
       if (error) {
         reject(error);
         return;
